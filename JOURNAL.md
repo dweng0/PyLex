@@ -1,5 +1,9 @@
 # Journal
 
+## Day 0 — 13:39 — Initial session setup
+
+No BDD scenarios implemented yet. Reviewed the project structure and BDD.md to understand the spec. Previous attempts hit build issues that were reverted. Next: start with the first UNCOVERED scenario from BDD_STATUS.md and write the test first.
+
 ## Day 0 — 13:35 — (auto-generated)
 
 Session commits: no commits made.
