@@ -37,7 +37,7 @@ Even if you're un familiar with compilers and lexers in particular. they are sur
 Clone the Repository
 
 ```bash
-git clone https://github.com/CodeCrafter-Guy/PyLex.git
+git clone https://github.com/dweng0/PyLex.git
 cd PyLex
 ```
 
@@ -47,14 +47,38 @@ cd PyLex
 pip install -r requirements.txt
 ```
 
-### Usage
-
-#### Running the Lexer
-
-You can run the lexer using the `main.py` script, providing the path to the input file (the code you want to tokenize) and the lexer configuration YAML file.
+Or with [uv](https://github.com/astral-sh/uv) (recommended for local dev):
 
 ```bash
-python main.py path/to/input_file.js lexers/javascript.yaml
+uv venv && uv pip install -r requirements.txt
+```
+
+### Running locally
+
+Tokenise a file using one of the bundled lexers:
+
+```bash
+python3 main.py path/to/file.py lexers/python.yaml
+```
+
+Pretty-print the JSON output:
+
+```bash
+python3 main.py path/to/file.py lexers/python.yaml | python3 -m json.tool
+```
+
+Available lexers: `python`, `javascript`, `typescript`, `rust`, `cpp`, `fortran`, `vyper`
+
+### Running tests locally
+
+```bash
+python3 -m pytest tests/ -v
+```
+
+Or with uv:
+
+```bash
+uv run pytest tests/ -v
 ```
 
 ### Available lexers

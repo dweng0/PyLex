@@ -1,8 +1,8 @@
 ---
 language: python
 framework: none
-build_cmd: uv run python3 -m py_compile main.py tokenizer/tokenizer.py lexers/lexer.py validate.py hard_validate.py
-test_cmd: uv run pytest tests/ -v
+build_cmd: python3 -m py_compile main.py tokenizer/tokenizer.py lexers/lexer.py validate.py hard_validate.py
+test_cmd: python3 -m pytest tests/ -v
 lint_cmd: echo 'lint not configured'
 fmt_cmd: echo 'format not configured'
 birth_date: 2026-03-13
