@@ -12,6 +12,7 @@ Functions:
 """
 
 import re
+import sys
 
 def is_delimiter(input, current_position, delimiters):
     """
@@ -127,11 +128,6 @@ def process_tokens(input_text, current_position, lexer_config):
     token_type = ''
     matched = False
 
-    # Skip over whitespace characters
-    WHITESPACE = ' \t\n\r'
-    while is_in_bounds(input_text, current_position) and input_text[current_position] in WHITESPACE:
-        current_position += 1  # Skip whitespace
-
     if not is_in_bounds(input_text, current_position):
         return None, current_position
 
@@ -168,7 +164,7 @@ def process_tokens(input_text, current_position, lexer_config):
                 break
 
     if not matched:
-        print(f"Lexical analysis config could not determine character at position {current_position}: '{input_text[current_position]}'")
+        print(f"Lexical analysis config could not determine character at position {current_position}: '{input_text[current_position]}'", file=sys.stderr)
         current_position += 1  # Skip the character
 
     return {'value': value, 'type': token_type} if matched else None, current_position

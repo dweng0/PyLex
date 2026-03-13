@@ -1,0 +1,7 @@
+lexer_target: test
+version: 1.0.0
+delimiters: " "
+tokens:
+  - type: identifier
+    pattern: "[a-zA-Z]+"
+  - this is invalid yaml: [unclosed

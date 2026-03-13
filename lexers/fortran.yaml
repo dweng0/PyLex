@@ -76,7 +76,7 @@ tokens:
   - type: punctuator
     value: ";"
 
-  # **Keywords** (Before identifiers)
+  # **Keywords** (Before identifiers) - uppercase
   - type: keyword
     value: "PROGRAM"
   - type: keyword
@@ -153,6 +153,83 @@ tokens:
     value: "OPERATOR"
   - type: keyword
     value: "CONTAINS"
+  # **Keywords** - lowercase (Fortran is case-insensitive)
+  - type: keyword
+    value: "program"
+  - type: keyword
+    value: "end"
+  - type: keyword
+    value: "function"
+  - type: keyword
+    value: "subroutine"
+  - type: keyword
+    value: "call"
+  - type: keyword
+    value: "return"
+  - type: keyword
+    value: "if"
+  - type: keyword
+    value: "then"
+  - type: keyword
+    value: "else"
+  - type: keyword
+    value: "endif"
+  - type: keyword
+    value: "do"
+  - type: keyword
+    value: "continue"
+  - type: keyword
+    value: "stop"
+  - type: keyword
+    value: "integer"
+  - type: keyword
+    value: "real"
+  - type: keyword
+    value: "double precision"
+  - type: keyword
+    value: "complex"
+  - type: keyword
+    value: "logical"
+  - type: keyword
+    value: "character"
+  - type: keyword
+    value: "dimension"
+  - type: keyword
+    value: "allocatable"
+  - type: keyword
+    value: "allocate"
+  - type: keyword
+    value: "deallocate"
+  - type: keyword
+    value: "parameter"
+  - type: keyword
+    value: "implicit"
+  - type: keyword
+    value: "none"
+  - type: keyword
+    value: "print"
+  - type: keyword
+    value: "read"
+  - type: keyword
+    value: "write"
+  - type: keyword
+    value: "format"
+  - type: keyword
+    value: "goto"
+  - type: keyword
+    value: "pause"
+  - type: keyword
+    value: "data"
+  - type: keyword
+    value: "module"
+  - type: keyword
+    value: "use"
+  - type: keyword
+    value: "interface"
+  - type: keyword
+    value: "operator"
+  - type: keyword
+    value: "contains"
 
   # **Identifiers**
   - type: identifier

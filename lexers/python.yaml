@@ -180,6 +180,8 @@ tokens:
   - type: keyword
     value: "pass"
   - type: keyword
+    value: "print"
+  - type: keyword
     value: "raise"
   - type: keyword
     value: "return"
