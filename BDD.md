@@ -1,8 +1,8 @@
 ---
 language: python
 framework: none
-build_cmd: python3 -m py_compile main.py tokenizer/tokenizer.py lexers/lexer.py validate.py hard_validate.py
-test_cmd: python3 -m pytest tests/ -v
+build_cmd: uv run python3 -m py_compile main.py tokenizer/tokenizer.py lexers/lexer.py validate.py hard_validate.py
+test_cmd: uv run pytest tests/ -v
 lint_cmd: echo 'lint not configured'
 fmt_cmd: echo 'format not configured'
 birth_date: 2026-03-13
@@ -206,3 +206,101 @@ System: A YAML-configured lexer (tokenizer) that converts source code files into
             When I run the tokenizer with that custom lexer
             Then the output contains tokens matching the custom definitions
             And no tokens from the built-in lexers appear in the output
+
+    Feature: Comment tokenisation
+        As a developer
+        I want comments in source code to be tokenised correctly
+        So that I can preserve or strip them in downstream tooling
+
+        Scenario: Single-line comments are tokenised as comment tokens
+            Given a source file containing a single-line comment (e.g. "# hello" or "// hello")
+            When I run the tokenizer with a lexer that defines a single-line comment pattern
+            Then the comment text appears as a token with type "comment"
+            And the concatenation of all token values reconstructs the original input
+
+        Scenario: Multi-line comments are tokenised as comment tokens
+            Given a source file containing a block comment (e.g. "/* ... */")
+            When I run the tokenizer with a lexer that defines a multi-line comment pattern
+            Then the entire block comment appears as a token with type "comment"
+            And the concatenation of all token values reconstructs the original input
+
+    Feature: Import statement tokenisation
+        As a developer
+        I want import and use statements to be tokenised correctly
+        So that I can analyse dependencies programmatically
+
+        Scenario: Python import statement is tokenised correctly
+            Given a Python source file containing "import os" and "from sys import path"
+            When I run the tokenizer with the Python lexer
+            Then "import" and "from" appear as keyword tokens
+            And "os", "sys", and "path" appear as identifier tokens
+
+        Scenario: JavaScript import statement is tokenised correctly
+            Given a JavaScript source file containing an ES6 import statement
+            When I run the tokenizer with the JavaScript lexer
+            Then "import" and "from" appear as keyword tokens
+            And the module name appears as a string literal token
+
+        Scenario: Rust use statement is tokenised correctly
+            Given a Rust source file containing a "use" declaration
+            When I run the tokenizer with the Rust lexer
+            Then "use" appears as a keyword token
+            And the path components appear as identifier tokens
+
+    Feature: Multi-character operator tokenisation
+        As a developer
+        I want multi-character operators to be tokenised as single tokens
+        So that "==" is not split into two "=" tokens
+
+        Scenario: Equality operator is tokenised as a single token
+            Given a source file containing "=="
+            When I run the tokenizer with a lexer that defines a "==" operator
+            Then "==" appears as a single operator token
+            And it is not split into two separate "=" tokens
+
+        Scenario: Arrow operator is tokenised as a single token
+            Given a source file containing "=>" or "->"
+            When I run the tokenizer with a lexer that defines arrow operators
+            Then the arrow appears as a single operator token
+
+        Scenario: Compound assignment operators are tokenised as single tokens
+            Given a source file containing "+=", "-=", or "*="
+            When I run the tokenizer with a lexer that defines compound assignment operators
+            Then each compound operator appears as a single operator token
+
+    Feature: Number literal tokenisation
+        As a developer
+        I want numeric literals to be tokenised as number tokens
+        So that I can distinguish them from identifiers and keywords
+
+        Scenario: Integer literals are tokenised as number tokens
+            Given a source file containing integer literals such as "42" and "0"
+            When I run the tokenizer with a lexer that defines a number pattern
+            Then each integer appears as a token with type "number"
+
+        Scenario: Float literals are tokenised as number tokens
+            Given a source file containing float literals such as "3.14" and "0.5"
+            When I run the tokenizer with a lexer that defines a number pattern
+            Then each float appears as a token with type "number"
+
+        Scenario: Hexadecimal literals are tokenised as number tokens
+            Given a source file containing hex literals such as "0xFF" and "0x1A2B"
+            When I run the tokenizer with a lexer that defines a hex number pattern
+            Then each hex literal appears as a token with type "number"
+
+    Feature: Empty input handling
+        As a developer
+        I want the tokenizer to handle empty or whitespace-only files gracefully
+        So that it does not crash on edge-case inputs
+
+        Scenario: Empty file produces an empty token array
+            Given an empty source file
+            When I run the tokenizer
+            Then the output is a valid JSON array
+            And the array is empty
+
+        Scenario: Whitespace-only file produces only whitespace tokens
+            Given a source file containing only spaces and newlines
+            When I run the tokenizer with a lexer that defines a whitespace pattern
+            Then the output contains only whitespace tokens
+            And the concatenation of token values equals the original input
