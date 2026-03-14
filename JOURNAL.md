@@ -1,6 +1,8 @@
 # Journal
 
-## Day 0 — 13:39 — Initial session setup
+## Day 1 — 00:17 — Fix build errors
+
+No BDD scenarios implemented yet. Fixed build errors from previous session so the project compiles cleanly. Tests are still failing because no scenarios are covered. Next: pick the first UNCOVERED scenario from BDD_STATUS.md and write the test first.
 
 No BDD scenarios implemented yet. Reviewed the project structure and BDD.md to understand the spec. Previous attempts hit build issues that were reverted. Next: start with the first UNCOVERED scenario from BDD_STATUS.md and write the test first.
 
