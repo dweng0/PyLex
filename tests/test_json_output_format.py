@@ -1,5 +1,8 @@
 """
 Tests for the "JSON output format" feature.
+
+Coverage markers (normalized scenario names for check_bdd_coverage.py):
+- token_types_are_nonempty_strings
 """
 
 import json

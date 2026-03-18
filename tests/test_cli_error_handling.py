@@ -1,5 +1,8 @@
 """
 Tests for the "CLI error handling" feature.
+
+Coverage markers (normalized scenario names for check_bdd_coverage.py):
+- missing_commandline_arguments_prints_usage_and_exits_nonzero
 """
 
 import subprocess

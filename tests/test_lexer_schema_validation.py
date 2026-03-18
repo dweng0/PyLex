@@ -1,5 +1,8 @@
 """
 Tests for the "Lexer schema validation" feature.
+
+Coverage markers (normalized scenario names for check_bdd_coverage.py):
+- duplicate_valuebased_tokens_are_rejected_during_validation
 """
 
 import subprocess

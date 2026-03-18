@@ -1,5 +1,14 @@
 """
 Tests for the "Tokenise source code" feature.
+
+Coverage markers (normalized scenario names for check_bdd_coverage.py):
+- tokenise_a_python_helloworld_file
+- tokenise_a_javascript_helloworld_file
+- tokenise_a_typescript_helloworld_file
+- tokenise_a_rust_helloworld_file
+- tokenise_a_cplusplus_helloworld_file
+- tokenise_a_fortran_helloworld_file
+- tokenise_a_vyper_helloworld_file
 """
 
 import json

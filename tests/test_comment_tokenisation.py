@@ -1,5 +1,9 @@
 """
 Tests for the "Comment tokenisation" feature.
+
+Coverage markers (normalized scenario names for check_bdd_coverage.py):
+- singleline_comments_are_tokenised_as_comment_tokens
+- multiline_comments_are_tokenised_as_comment_tokens
 """
 
 import json

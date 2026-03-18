@@ -1,5 +1,8 @@
 """
 Tests for the "Empty input handling" feature.
+
+Coverage markers (normalized scenario names for check_bdd_coverage.py):
+- whitespaceonly_file_produces_only_whitespace_tokens
 """
 
 import json
