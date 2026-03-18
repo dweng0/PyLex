@@ -17,6 +17,7 @@ Example:
 
 import argparse
 import yaml
+import sys
 
 from lexers.lexer import process_tokens, precompile_patterns
 from tokenizer.tokenizer import tokenize
@@ -34,9 +35,19 @@ def read_file(file_path):
     Raises:
         IOError: If the file cannot be opened or read.
     """
-    with open(file_path, encoding="utf-8") as file:
-        read_data = file.read()
-    return read_data
+    try:
+        with open(file_path, encoding="utf-8") as file:
+            read_data = file.read()
+        return read_data
+    except FileNotFoundError:
+        print(f"Error: File not found: {file_path}", file=sys.stderr)
+        sys.exit(1)
+    except PermissionError:
+        print(f"Error: Permission denied: {file_path}", file=sys.stderr)
+        sys.exit(1)
+    except IOError as e:
+        print(f"Error: Cannot read file {file_path}: {e}", file=sys.stderr)
+        sys.exit(1)
 
 def read_lexer_config(config_file_name):
     """
@@ -52,9 +63,22 @@ def read_lexer_config(config_file_name):
         IOError: If the file cannot be opened or read.
         yaml.YAMLError: If there is an error parsing the YAML file.
     """
-    with open(config_file_name, 'r') as file:
-        data = yaml.safe_load(file)
-    return data
+    try:
+        with open(config_file_name, 'r') as file:
+            data = yaml.safe_load(file)
+        return data
+    except FileNotFoundError:
+        print(f"Error: Lexer config file not found: {config_file_name}", file=sys.stderr)
+        sys.exit(1)
+    except PermissionError:
+        print(f"Error: Permission denied: {config_file_name}", file=sys.stderr)
+        sys.exit(1)
+    except yaml.YAMLError as e:
+        print(f"Error: Invalid YAML in lexer config: {e}", file=sys.stderr)
+        sys.exit(1)
+    except IOError as e:
+        print(f"Error: Cannot read lexer config {config_file_name}: {e}", file=sys.stderr)
+        sys.exit(1)
 
 def main():
     """

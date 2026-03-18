@@ -109,13 +109,15 @@ def get_string_slice(input_text, current_position, delimiters):
     Example:
         get_string_slice("function test() {}", 9, " (){}")  # Returns ('test', 13)
     """
-    slice_text = ''
+    # Find the end position by scanning for the first delimiter
+    end_position = current_position
+    while is_in_bounds(input_text, end_position) and not is_delimiter(input_text, end_position, delimiters):
+        end_position += 1
     
-    while is_in_bounds(input_text, current_position) and not is_delimiter(input_text, current_position, delimiters):
-        slice_text += input_text[current_position]
-        current_position += 1
+    # Use direct slicing instead of character-by-character concatenation
+    slice_text = input_text[current_position:end_position]
     
-    return slice_text, current_position
+    return slice_text, end_position
 
 def process_tokens(input_text, current_position, lexer_config):
     """

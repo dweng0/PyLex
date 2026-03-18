@@ -1,6 +1,6 @@
 # BDD Status
 
-Checked 49 scenario(s) across 39 test file(s).
+Checked 49 scenario(s) across 41 test file(s).
 
 
 ## Feature: Tokenise source code
@@ -92,19 +92,13 @@ Checked 49 scenario(s) across 39 test file(s).
 
 ## Feature: Efficient string slicing
 
-- [ ] UNCOVERED: String slice extraction uses direct slicing instead of character-by-character concatenation
+- [x] String slice extraction uses direct slicing instead of character-by-character concatenation
 
 ## Feature: CLI error messages
 
-- [ ] UNCOVERED: File not found produces a clean error message without a traceback
-- [ ] UNCOVERED: Invalid YAML produces a clean error message without a traceback
-- [ ] UNCOVERED: Unreadable file produces a clean error message without a traceback
+- [x] File not found produces a clean error message without a traceback
+- [x] Invalid YAML produces a clean error message without a traceback
+- [x] Unreadable file produces a clean error message without a traceback
 
 ---
-**45/49 scenarios covered.**
-
-4 scenario(s) need tests:
-- String slice extraction uses direct slicing instead of character-by-character concatenation
-- File not found produces a clean error message without a traceback
-- Invalid YAML produces a clean error message without a traceback
-- Unreadable file produces a clean error message without a traceback
+**49/49 scenarios covered.**
