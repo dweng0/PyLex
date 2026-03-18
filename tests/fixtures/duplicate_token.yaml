@@ -1,0 +1,9 @@
+lexer_target: test
+version: 1.0.0
+delimiters: " \t\n"
+delimiter_check_for_types: []
+tokens:
+  - type: operator
+    value: "**"
+  - type: operator
+    value: "**"

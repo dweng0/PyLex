@@ -148,6 +148,44 @@ tokens:
         f"Error should describe the invalid token. Got: {error_message}"
 
 
+def test_duplicate_value_based_tokens_are_rejected_during_validation():
+    """
+    Scenario: Duplicate value-based tokens are rejected during validation
+    
+    Given a lexer YAML file containing two tokens with the same value (e.g. "**" defined twice)
+    When I run validate.py
+    Then the exit code is non-zero
+    And an error message identifies the duplicate token value
+    """
+    os.makedirs("tests/fixtures", exist_ok=True)
+    
+    # Create a lexer YAML with duplicate token values
+    duplicate_lexer = "tests/fixtures/duplicate_token.yaml"
+    with open(duplicate_lexer, "w") as f:
+        f.write("""lexer_target: test
+version: 1.0.0
+delimiters: " \\t\\n"
+delimiter_check_for_types: []
+tokens:
+  - type: operator
+    value: "**"
+  - type: operator
+    value: "**"
+""")
+    
+    import yaml
+    import json
+    from validate import validate_yaml
+    
+    error_list = []
+    result = validate_yaml(duplicate_lexer, 'lexer_schema.json', error_list)
+    
+    assert not result, "Lexer YAML with duplicate token values should fail validation"
+    assert len(error_list) > 0, "Error list should contain at least one error"
+    assert "duplicate" in error_list[0].lower() or "Duplicate" in error_list[0], \
+        f"Error should mention duplicate token value. Got: {error_list[0]}"
+
+
 def test_all_bundled_lexer_files_pass_validation():
     """
     Scenario: All bundled lexer files pass validation

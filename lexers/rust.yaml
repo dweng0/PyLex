@@ -115,8 +115,6 @@ tokens:
   - type: punctuator
     value: '...'
   - type: punctuator
-    value: '::'
-  - type: punctuator
     value: ','
   - type: punctuator
     value: ';'

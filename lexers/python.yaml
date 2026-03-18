@@ -68,8 +68,6 @@ tokens:
   - type: operator
     value: "->"
   - type: operator
-    value: "**"
-  - type: operator
     value: "+"
   - type: operator
     value: "-"
@@ -193,14 +191,6 @@ tokens:
     value: "with"
   - type: keyword
     value: "yield"
-
-  # **Boolean and None Literals** (After keywords)
-  - type: boolean_literal
-    value: "True"
-  - type: boolean_literal
-    value: "False"
-  - type: none_literal
-    value: "None"
 
   # **Identifiers**
   - type: identifier

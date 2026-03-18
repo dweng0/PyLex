@@ -31,9 +31,7 @@ tokens:
   - type: string_literal
     pattern: "'([^'\\\\]|\\\\.)*'"
   # Template literals (backticks)
-  - type: template_literal_start
-    value: "`"
-  - type: template_literal_end
+  - type: template_literal
     value: "`"
 
   # **Operators** (Multi-character operators before single-character operators)

@@ -74,7 +74,6 @@ def validate_yaml(yaml_file_path, json_schema_path, error_list):
     schema = load_json(json_schema_path)
     try:
         validate(instance=data, schema=schema)
-        return True
     except ValidationError as ve:
         error_message = f"Validation error in {yaml_file_path}: {ve.message}"
         error_list.append(error_message)
@@ -83,6 +82,20 @@ def validate_yaml(yaml_file_path, json_schema_path, error_list):
         error_message = f"Schema error: {se.message}"
         error_list.append(error_message)
         return False
+    
+    # Check for duplicate token values
+    if "tokens" in data and isinstance(data["tokens"], list):
+        seen_values = {}
+        for i, token in enumerate(data["tokens"]):
+            if "value" in token:
+                value = token["value"]
+                if value in seen_values:
+                    error_message = f"Validation error in {yaml_file_path}: Duplicate token value '{value}' found at positions {seen_values[value]} and {i}"
+                    error_list.append(error_message)
+                    return False
+                seen_values[value] = i
+    
+    return True
 
 def validate_all():
     """

@@ -52,6 +52,8 @@ EXCLUDE_DIRS = {".git", "node_modules", "target", "dist", "build", ".venv", "__p
 def normalize(text):
     """Convert scenario name to searchable form."""
     text = text.lower()
+    text = text.replace("++", "plusplus")  # Handle C++ before removing special chars
+    text = text.replace("-", " ")  # Convert hyphens to spaces first
     text = re.sub(r"[^a-z0-9\s]", "", text)
     text = re.sub(r"\s+", "_", text.strip())
     return text

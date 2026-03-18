@@ -18,7 +18,7 @@ Example:
 import argparse
 import yaml
 
-from lexers.lexer import process_tokens
+from lexers.lexer import process_tokens, precompile_patterns
 from tokenizer.tokenizer import tokenize
 
 def read_file(file_path):
@@ -73,6 +73,9 @@ def main():
     
     input_text = read_file(args.input_file)
     lexer_config = read_lexer_config(args.lexer_config)
+    
+    # Precompile regex patterns for efficient tokenization
+    precompile_patterns(lexer_config)
     
     tokens = tokenize(input_text, lexer_config, process_tokens)
     

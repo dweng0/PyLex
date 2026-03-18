@@ -14,6 +14,34 @@ Functions:
 import re
 import sys
 
+def precompile_patterns(lexer_config):
+    """
+    Precompile regex patterns in the lexer configuration for efficient reuse.
+    
+    This function modifies the lexer_config in place, adding a 'compiled_pattern'
+    key to each token that has a 'pattern' field. This avoids recompiling the
+    same regex on every token match during tokenization.
+    
+    Parameters:
+    -----------
+    lexer_config : dict
+        The lexer configuration dictionary containing token definitions.
+    
+    Returns:
+    --------
+    dict
+        The modified lexer_config with precompiled patterns.
+    
+    Example:
+        lexer_config = {'tokens': [{'type': 'identifier', 'pattern': r'[a-z]+'}]}
+        precompile_patterns(lexer_config)
+        # lexer_config['tokens'][0]['compiled_pattern'] is now a compiled regex
+    """
+    for token in lexer_config.get('tokens', []):
+        if 'pattern' in token and 'compiled_pattern' not in token:
+            token['compiled_pattern'] = re.compile(token['pattern'])
+    return lexer_config
+
 def is_delimiter(input, current_position, delimiters):
     """
     Check if the character at the current position in the input string is a delimiter.
@@ -155,7 +183,9 @@ def process_tokens(input_text, current_position, lexer_config):
                     matched = True
                     break
         elif 'pattern' in token:
-            match = re.match(token['pattern'], input_text[current_position:])
+            # Use precompiled pattern if available, otherwise compile on the fly
+            pattern = token.get('compiled_pattern') or re.compile(token['pattern'])
+            match = pattern.match(input_text[current_position:])
             if match:
                 value = match.group(0)
                 token_type = token['type']
