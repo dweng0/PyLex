@@ -304,3 +304,68 @@ System: A YAML-configured lexer (tokenizer) that converts source code files into
             When I run the tokenizer with a lexer that defines a whitespace pattern
             Then the output contains only whitespace tokens
             And the concatenation of token values equals the original input
+
+    Feature: Duplicate token deduplication
+        As a lexer author
+        I want duplicate token definitions to be detected
+        So that I can avoid silent redundancy in my lexer configs
+
+        Scenario: Duplicate value-based tokens are rejected during validation
+            Given a lexer YAML file containing two tokens with the same value (e.g. "**" defined twice)
+            When I run validate.py
+            Then the exit code is non-zero
+            And an error message identifies the duplicate token value
+
+        Scenario: Bundled lexers contain no duplicate token values
+            Given all YAML files in the lexers/ directory
+            When I check each file for tokens with duplicate "value" fields
+            Then no duplicates are found in any bundled lexer
+
+    Feature: Regex pattern precompilation
+        As a developer processing large source files
+        I want lexer regex patterns to be compiled once and reused
+        So that tokenisation performance scales linearly with input size
+
+        Scenario: Patterns are compiled once before tokenisation begins
+            Given a lexer YAML containing regex pattern tokens
+            When I tokenise a source file
+            Then each regex pattern is compiled only once, not on every character position
+
+        Scenario: Large file tokenisation completes within a reasonable time
+            Given a Python source file of at least 1000 lines
+            When I run the tokenizer with the Python lexer
+            Then tokenisation completes within 5 seconds
+            And the output is a valid JSON array
+
+    Feature: Efficient string slicing
+        As a developer processing large source files
+        I want the lexer to avoid O(n^2) string concatenation
+        So that performance does not degrade on long tokens
+
+        Scenario: String slice extraction uses direct slicing instead of character-by-character concatenation
+            Given the lexer's get_string_slice function
+            When it extracts a slice from an input string
+            Then it uses index-based slicing rather than appending one character at a time
+
+    Feature: CLI error messages
+        As a developer running PyLex from the command line
+        I want user-friendly error messages instead of Python tracebacks
+        So that I can understand problems without reading implementation details
+
+        Scenario: File not found produces a clean error message without a traceback
+            Given I run the tokenizer with a path to a file that does not exist
+            Then the exit code is non-zero
+            And stderr contains a human-readable error message
+            And stderr does not contain "Traceback (most recent call last)"
+
+        Scenario: Invalid YAML produces a clean error message without a traceback
+            Given I run the tokenizer with a lexer config file containing invalid YAML
+            Then the exit code is non-zero
+            And stderr contains a human-readable error message
+            And stderr does not contain "Traceback (most recent call last)"
+
+        Scenario: Unreadable file produces a clean error message without a traceback
+            Given I run the tokenizer with a file that exists but is not readable
+            Then the exit code is non-zero
+            And stderr contains a human-readable error message
+            And stderr does not contain "Traceback (most recent call last)"
